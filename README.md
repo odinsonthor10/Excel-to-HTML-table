@@ -1,11 +1,11 @@
 ##Author: Swapnankit  mailid: bswapnankit@gmail.com
 
 This repository contains ExToHtml.py file
-This file automatically converts excel sheet to Html table and gives the .html file.
+This file converts excel sheet to Html table and gives the .html file.
 
-ExToHtml.py contains two functions i) toDictionary(filename, sheetname,custom_row=False,custom_col=False,col_start,col_end,row_start, row_end) 
+Use this function  toHtml(filename, sheetname,filesave,custom_row=False,custom_col=False,col_start,col_end,row_start, row_end)   to convert an excel file into html table
 
-ii) toHtml(filename, sheetname,filesave,custom_row=False,custom_col=False,col_start,col_end,row_start, row_end)
+ExToHtml.py contains two functions 
 
 1. toDictionary(filename, sheetname,custom_row=False,custom_col=False,col_start,col_end,row_start, row_end) 
 
