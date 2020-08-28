@@ -8,14 +8,38 @@ from operator import itemgetter
 mydoc=docx.Document()
 
 def toDictionary(filename,sheetname,custom_row=False,custom_col=False,**kwargs):
+    flag=0
     if(custom_row&custom_col):
         df = pd.read_excel(filename, sheet_name=sheetname,header=None).iloc[kwargs['row_start']:kwargs['row_end'],kwargs['col_start']:kwargs['col_end']]
+        flag=1
+        col_start=kwargs['col_start']
+        col_end=kwargs['col_end']
+        row_start=kwargs['row_start']
+        row_end=kwargs['row_end']
+
     elif(custom_row):
         df = pd.read_excel(filename, sheet_name=sheetname,header=None).iloc[kwargs['row_start']:kwargs['row_end'],:]
+        flag=2
+        col_start=0
+        col_end=df.shape[1]
+        row_start=kwargs['row_start']
+        row_end=kwargs['row_end']
+        
     elif(custom_col):
         df = pd.read_excel(filename, sheet_name=sheetname,header=None).iloc[:,kwargs['col_start']:kwargs['col_end']]
+        flag=3
+        row_start=0
+        row_end=df.shape[0]
+        col_start=kwargs['col_start']
+        col_end=kwargs['col_end']
     else:
         df = pd.read_excel(filename, sheet_name=sheetname,header=None).iloc[:,:]
+        flag=4
+        col_start=0
+        col_end=df.shape[1]
+        row_start=0
+        row_end=df.shape[0]
+
     
     df=df.replace(np.nan," ",regex=True)
     data=df.values
@@ -58,12 +82,13 @@ def toDictionary(filename,sheetname,custom_row=False,custom_col=False,**kwargs):
         print("Check file type")
         return "error file type"
     
-    a=a[np.where(a[:,0]<kwargs['row_end'])]
-    a=a[np.where(a[:,0]>=kwargs['row_start'])]
-    a=a[np.where(a[:,2]>=kwargs['col_start'])]
-    a=a[np.where(a[:,2]<kwargs['col_end'])]
+    a=a[np.where(a[:,0]<row_end)]
+    a=a[np.where(a[:,0]>=row_start)]
+    a=a[np.where(a[:,2]>=col_start)]
+    a=a[np.where(a[:,2]<col_end)]
+
     print(a.tolist())
-    a=np.subtract(a,[kwargs['row_start'],kwargs['row_start'],kwargs['col_start'],kwargs['col_start']])
+    a=np.subtract(a,[row_start,row_start,col_start,col_start])
     
     
     merged_info=a
